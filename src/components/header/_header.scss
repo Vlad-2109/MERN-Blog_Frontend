@@ -1,0 +1,89 @@
+@use 'src/styles/variables' as v;
+
+nav {
+	width: 100vw;
+	height: 5rem;
+	display: grid;
+	place-items: center;
+	background: rgba(255, 255, 255, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	border-bottom: 4px solid v.$color-bg;
+	backdrop-filter: blur(20px);
+	& .container {
+		width: v.$container-width-lg;
+		margin-inline: auto;
+	}
+	& .nav__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+	}
+	& .nav {
+		&__logo {
+			width: 3rem;
+			display: block;
+		}
+		&__menu {
+			display: flex;
+			align-items: center;
+			gap: 3rem;
+		}
+		&__toggle-btn {
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: 800px) {
+	nav .nav {
+		&__container {
+			position: relative;
+		}
+		&__menu {
+			position: absolute;
+			top: 5rem;
+			right: 0;
+			flex-direction: column;
+			gap: 0;
+			& li {
+				width: 100%;
+				box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.26);
+				animation: dropDown 500ms ease forwards;
+				opacity: 0;
+				transform: rotateX(90deg);
+				transform-origin: top;
+				&:nth-child(2) {
+					animation-delay: 300ms;
+				}
+				&:nth-child(3) {
+					animation-delay: 600ms;
+				}
+				&:nth-child(4) {
+					animation-delay: 900ms;
+				}
+				& a {
+					display: block;
+					background: v.$color-white;
+					padding: 0.85rem 2.5rem;
+				}
+			}
+		}
+		&__toggle-btn {
+			display: inline-block;
+			background: transparent;
+			font-size: 1.5rem;
+			cursor: pointer;
+		}
+	}
+
+	@keyframes dropDown {
+		to {
+			opacity: 1;
+			transform: rotateX(0);
+		}
+	}
+}

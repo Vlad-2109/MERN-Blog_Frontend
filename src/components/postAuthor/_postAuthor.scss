@@ -1,0 +1,13 @@
+@use 'src/styles/variables' as v;
+
+.post__author {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	&-avatar {
+		width: 2.5rem;
+		aspect-ratio: 1/1;
+		border-radius: v.$radius-2;
+		overflow: hidden;
+	}
+}

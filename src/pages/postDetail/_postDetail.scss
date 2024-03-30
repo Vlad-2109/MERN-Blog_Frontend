@@ -1,0 +1,38 @@
+@use 'src/styles/variables' as v;
+
+.post-detail {
+	width: v.$form-width;
+	background: v.$color-white;
+	margin-inline: auto;
+	padding: 2rem 0;
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 1.5rem;
+	}
+	&__buttons {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+	&__thumbnail {
+		margin: 1rem 0;
+		height: fit-content;
+		max-height: 30rem;
+		overflow: hidden;
+	}
+	& p {
+		margin-bottom: 0.7rem;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.post-detail {
+		width: 100%;
+		background: transparent;
+		padding: 0;
+		& h1 {
+			margin-top: 1rem;
+		}
+	}
+}

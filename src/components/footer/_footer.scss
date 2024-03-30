@@ -1,0 +1,39 @@
+@use 'src/styles/variables' as v;
+/*======================================== FOOTER =====================================*/
+
+footer {
+	background: v.$color-gray-900;
+	margin-top: 6rem;
+	padding-top: 6rem;
+	& .footer__categories {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-bottom: 4rem;
+		& a {
+			background: v.$color-gray-700;
+			color: v.$color-white;
+			padding: 0.6rem 1.4rem;
+			border-radius: v.$radius-2;
+			transition: v.$transition;
+			&:hover {
+				background: v.$color-white;
+				color: v.$color-gray-900;
+			}
+		}
+	}
+	& .footer__copyright {
+		text-align: center;
+		border-top: 2px solid v.$color-gray-700;
+		padding: 1rem;
+		color: v.$color-white;
+		font-weight: 300;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.footer__categories{
+		flex-direction: column;
+	}
+}

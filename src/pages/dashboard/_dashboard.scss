@@ -1,0 +1,47 @@
+@use 'src/styles/variables' as v;
+
+.dashboard {
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+	}
+	&__post {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		background: v.$color-white;
+		padding: 0.5rem 1.2rem;
+		border-radius: v.$radius-3;
+		&-info {
+			display: flex;
+			gap: 2rem;
+			width: 100%;
+			align-items: center;
+		}
+		&-thumbnail {
+			width: 4rem;
+			border-radius: v.$radius-1;
+			overflow: hidden;
+		}
+		&-actions {
+			display: flex;
+			gap: 1rem;
+		}
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.dashboard {
+		&__post {
+			flex-direction: column;
+			&-info {
+				gap: 1.5rem;
+			}
+			&-thumbnail {
+				width: 5rem;
+			}
+		}
+	}
+}

@@ -1,0 +1,7 @@
+@use 'src/styles/variables' as v;
+
+.ql-editor {
+	overflow: scroll;
+	background: v.$color-white;
+	height: 10rem !important;
+}
