@@ -1,14 +1,21 @@
+interface Creator{
+	_id: string;
+	name: string;
+	email: string;
+}
+
 export interface Data {
-	id: string;
-	thumbnail: string;
+	_id: string;
 	category: string;
 	title: string;
-	desc: string;
-	authorID: number;
+	description: string;
+	creator: Creator;
+	thumbnail: string;
+	createdAt: string;
 }
 
 export interface AuthorsData {
-	id: number;
+	_id: string;
 	avatar: string;
 	name: string;
 	posts: number;

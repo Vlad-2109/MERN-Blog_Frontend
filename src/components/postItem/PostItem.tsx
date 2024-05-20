@@ -6,18 +6,22 @@ import { Link } from 'react-router-dom';
 const PostItem: React.FC<PostItemProps> = ({
 	postId,
 	thumbnail,
-	title,
 	category,
+	title,
 	description,
+	authorID,
+	createdAt
 }) => {
-
-	const shortDescription = description.length > 145 ? description.substring(0, 145) + '...' : description;
+	const shortDescription =
+		description.length > 145
+			? description.substring(0, 145) + '...'
+			: description;
 	const postTitle = title.length > 30 ? title.substring(0, 30) + '...' : title;
 
 	return (
 		<article className="post">
 			<div className="post__thumbnail">
-				<img src={thumbnail} alt={title} />
+				<img src={`${import.meta.env.VITE_REACT_APP_ASSETS_URL}/uploads/${thumbnail}`} alt={title} />
 			</div>
 			<div className="post__content">
 				<Link to={`/posts/${postId}`}>
@@ -25,7 +29,7 @@ const PostItem: React.FC<PostItemProps> = ({
 				</Link>
 				<p>{shortDescription}</p>
 				<div className="post__footer">
-					<PostAuthor />
+					<PostAuthor authorID={authorID} createdAt={createdAt} />
 					<Link to={`/posts/categories/${category}`} className="btn category">
 						{category}
 					</Link>

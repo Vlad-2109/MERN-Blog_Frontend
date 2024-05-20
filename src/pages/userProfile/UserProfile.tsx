@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '../../images/avatar15.jpg';
 import { FaEdit, FaCheck } from 'react-icons/fa';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './_userProfile.scss';
+import { UserContext } from '../../context/userContext';
 
 const UserProfile: React.FC = () => {
 	const [avatar, setAvatar] = useState<File | string | undefined>(Avatar);
@@ -11,6 +12,17 @@ const UserProfile: React.FC = () => {
 	const [currentPassword, setCurrentPassword] = useState<string>('');
 	const [newPassword, setNewPassword] = useState<string>('');
 	const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+
+	const navigate = useNavigate();
+	const { currentUser } = useContext(UserContext);
+	const token = currentUser?.token;
+
+	// redirect to login page for any user who isn't logged in
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+		}
+	});
 
 	const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {

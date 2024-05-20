@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect, FormEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './_createPost.scss';
+import { UserContext } from '../../context/userContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CreatePost: React.FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -10,6 +13,18 @@ const CreatePost: React.FC = () => {
 	/* eslint-disable */
 	// @ts-ignore: Unreachable code error
 	const [thumbnail, setThumbnail] = useState<File | string | undefined>('');
+	const [error, setError] = useState<string>('');
+
+	const { currentUser } = useContext(UserContext);
+	const token = currentUser?.token;
+	const navigate = useNavigate();
+
+	// redirect to ligin page for any  user who isn't logged in
+	useEffect(() => {
+		if (!token) {
+			navigate('/login')
+		}
+	}, [])
 
 	const modules = {
 		toolbar: [
@@ -67,12 +82,36 @@ const CreatePost: React.FC = () => {
 		}
 	};
 
+	const createPost = async (e: FormEvent) => {
+		e.preventDefault();
+
+		const postData = new FormData();
+		postData.set('title', title);
+		postData.set('category', category);
+		postData.set('description', description);
+		if (thumbnail instanceof File) {
+			postData.set('thumbnail', thumbnail);
+		}
+
+		try {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BASE_URL}/posts`,
+				postData,
+				{ withCredentials: true, headers: { Authorization: `Bearer ${token}` } })
+			if (response.status === 201) {
+				navigate('/');
+			}
+		} catch (err:any) {
+			setError(err.response.data.message)
+		}
+
+	}
+
 	return (
 		<section className="create-post">
 			<div className="container">
 				<h2>Create Post</h2>
-				<p className="form__error-message">This is an error message</p>
-				<form className="form create-post__form">
+				{error && <p className='error'>{error}</p>}
+				<form className="form create-post__form" onSubmit={createPost}>
 					<input
 						type="text"
 						placeholder="Title"

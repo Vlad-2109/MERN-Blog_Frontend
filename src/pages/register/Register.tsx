@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { UserDataRegister } from '../../types/pagesTypes';
 import './_register.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register: React.FC = () => {
 	const [userData, setUserData] = useState<UserDataRegister>({
@@ -10,6 +11,8 @@ const Register: React.FC = () => {
 		password: '',
 		password2: '',
 	});
+	const [error, setError] = useState<string>('');
+	const navigate = useNavigate();
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUserData((prevState) => {
@@ -17,12 +20,27 @@ const Register: React.FC = () => {
 		});
 	};
 
+	const registerUser = async (e: FormEvent) => {
+		e.preventDefault();
+		try {	
+			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BASE_URL}/users/register`, userData);
+			const newUser = await response.data;
+			console.log(newUser);
+			if(!newUser){
+				setError(`Couldn't register user. Please try again`)
+			}
+			navigate('/login')
+		} catch (err: any) {
+			setError(err.response.data.message)
+		}
+	}
+
 	return (
 		<section className="register">
 			<div className="container">
 				<h2>Sign Up</h2>
-				<form className="form register__form">
-					<p className="form__error-message">This is an error message</p>
+				<form className="form register__form" onSubmit={registerUser}>
+					{error && <p className="form__error-message">{error}</p>}
 					<input
 						type="text"
 						placeholder="Full Name"

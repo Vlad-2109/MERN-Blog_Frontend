@@ -1,24 +1,51 @@
-import { useState } from 'react';
-import { DUMMY_POSTS } from '../../data';
+import { useEffect, useState } from 'react';
 import { Data } from '../../types/dataTypes';
 import PostItem from '../../components/postItem/PostItem';
 import './_authorPosts.scss';
+import axios from 'axios';
+import Loader from '../../components/loader/Loader';
+import { useParams } from 'react-router-dom';
 
 const AuthorPosts: React.FC = () => {
-	const [posts, setPosts] = useState<Data[]>(DUMMY_POSTS);
+	const [posts, setPosts] = useState<Data[]>([]);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const { id } = useParams();
+
+	useEffect(() => {
+		const fetchPosts = async () => {
+			setIsLoading(true);
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_REACT_APP_BASE_URL}/posts/users/${id}`
+				);
+				setPosts(response?.data);
+			} catch (err: any) {
+				console.log(err);
+			}
+			setIsLoading(false);
+		};
+		fetchPosts();
+	}, [id]);
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
 	return (
 		<section className="posts">
 			{posts.length > 0 ? (
 				<div className="container posts__container">
 					{posts.map((post) => (
 						<PostItem
-							key={post.id}
-							postId={post.id}
+							key={post._id}
+							postId={post._id}
 							thumbnail={post.thumbnail}
 							category={post.category}
 							title={post.title}
-							description={post.desc}
-							authorID={post.authorID}
+							description={post.description}
+							authorID={post.creator._id}
+							createdAt={post.createdAt}
 						/>
 					))}
 				</div>

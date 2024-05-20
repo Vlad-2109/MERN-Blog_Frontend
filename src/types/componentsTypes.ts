@@ -4,5 +4,19 @@ export interface PostItemProps {
 	category: string;
 	title: string;
 	description: string;
-	authorID: number;
+	authorID: string;
+	createdAt: string;
+}
+
+export interface PostAuthorProps {
+	authorID: string;
+	createdAt: string;
+}
+
+export interface Author {
+	_id: string;
+	name: string;
+	email: string;
+	posts: number;
+	avatar?: string;
 }

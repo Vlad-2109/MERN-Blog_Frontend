@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './_editPost.scss';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/userContext';
 
 const EditPost: React.FC = () => {
 	const [title, setTitle] = useState<string>('');
@@ -10,6 +12,17 @@ const EditPost: React.FC = () => {
 	/* eslint-disable */
 	// @ts-ignore: Unreachable code error
 	const [thumbnail, setThumbnail] = useState<File | string | undefined>('');
+	
+	const navigate = useNavigate();
+	const { currentUser } = useContext(UserContext);
+	const token = currentUser?.token;
+
+	// redirect to login page for any user who isn't logged in
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+		}
+	});
 
 	const modules = {
 		toolbar: [
